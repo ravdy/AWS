@@ -1,0 +1,5 @@
+#!/bin/bash
+yum install httpd -y
+service httpd start 
+chkconfig httpd on
+echo "This is test page" > /var/www/html/index.html
