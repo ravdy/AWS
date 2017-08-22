@@ -1,0 +1,138 @@
+1. Create S3 role for EC2 and give S3 full access
+2. Create 2 Security Groups
+	MywebSG	- enable http, https and SSH
+	MyRDSSG - MySQL, 
+
+3. Create RDS server
+
+4. Creat Load balance - MyYankilLB
+
+5. Create Route53 - add Load balancer here
+
+6 Create 2 buckets
+	yankilcode 
+	yankilcdn
+
+7. Create Cloud front distrition - Web - YankilWordPressCD
+
+8. Create Instance - TemplateServer
+
+9. Add Instance to Load Balancer
+
+10. install httpd php php-mysql and update
+	yum install httpd php php-mysql -y
+	yum update
+
+11. cd /etc/httpd/conf
+	edit httpd.conf
+
+  Search for "AllowOverrid None" change None to All
+ It is /var/www/html directory
+
+12. start httpd service
+
+13. cd /var/www/html
+
+14. create elb.html
+
+15. check load blancer. now it will be in service
+
+16. Goto WordPress website and copy link
+
+17. wget https://wordpress.org/latest.tar.gz
+    tar -xzf latest.tar.gz
+    rm -rf html
+    mv wordpress html
+
+18. Create elb.html again
+
+
+19. chown -R apache.apache html
+    chmod -R 755 html
+ it allows us to write in html dir from wordpress  website.
+
+20. got to yankil.com and configure wordpress
+
+21. database name - yankilDB
+    user name 
+    password 
+    database host : <endpoint name>:3306
+
+
+============================================================
+
+1. Login to wordpress and update some data
+
+2. copy image address and see. it should be server from EC2
+   but it should be serverd from cloud front
+
+got to EC2
+
+3. copy your code to S3
+
+aws s3 cp --recursive /var/www/html/ s3://yankilcode
+
+4. aws s3 yankilcode
+
+5. remove your data and copy back if you want to test. but make sure you are giving proper permissions
+
+ aws s3 cp s3://yankilcode /var/www/html --recursive
+
+6. set cronjob if you want to sysc data with your bucket
+
+*/2 * * * * root aws s3 sync --recursive /var/www/html s3://yankilcode/
+
+7. if you test by creating a file under /var/www/html it get updated in s3 bucket
+
+8. aws s3 cp /var/www/html/wp-content/uploads/ s3://yankilwpcdn/ -- recursive
+
+
+9. copy .htaccess file on to server and add cloud front
+
+  from now our cloudfront is going to use s3 bucket if some one request for image.
+
+10. restart httpd daemon
+
+11. try for image now. it should come from cloud front.
+
+12. add cronttab to do this stuff
+
+*/2 * * * * root aws s3 sync --recursive /var/www/html/wp-content/uploads/ s3://yankilcdn/
+
+
+13. you can add cronttab to copy back data from s3 to EC2
+
+14. */2 * * * * root aws s3 sync --recursive  s3://yankilcode/
+/var/www/html
+
+15. restart crontab
+
+16. Login to website
+	yankil.com/wp-admin
+
+=====================================
+
+create AMI
+
+1. remove html directoy and recrete it. when a new srever starts, data copied from S3
+
+2. 	chmod -R apache.apache html
+	chmod -R 755
+	chkconfig crond on
+	chkconfig httpd on
+3. create Image 
+
+4. Create Launch Configuration and auto scaling
+
+  under launch configuration
+Use IAM role  : 
+and boot stracp script
+
+#!/bin/bash
+yum install httpd php php-mysql -y
+yum update -y
+aws s3 cp --recursive s3://yankilwpcode /var/www/html/
+service cron start
+/etc/init.d/crond start
+
+
