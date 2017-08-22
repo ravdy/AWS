@@ -1,0 +1,27 @@
+after this lab you can able to see custom matrix in Cloudwatch
+
+create an ec2 instance by assigning cloudwatch full access role
+
+yum update -y
+
+yum install perl-Switch perl-Sys-Syslog perl-LWP-Protocol-https -y
+
+copy CloudWatchMonitoringScripts-v1.1.0.zip from your bucket.
+
+
+wget https://s3.amazonaws.com/valaxyaws/CloudWatchMonitoringScripts-v1.1.0.zip
+
+unzip CloudWatchMonitoringScripts-v1.1.0.zip
+
+rm -rf CloudWatchMonitoringScripts-
+
+cd aws-scripts-mon
+
+./mon-put-instance-data.pl --mem-util --verify -verbose
+
+./mon-put-instance-data.pl --mem-util --mem-used --mem-avail
+
+to know how to configure memory monitoring go through with below link
+
+http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/mon-scripts.html
+
