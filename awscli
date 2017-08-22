@@ -1,0 +1,9 @@
+1. Login as ec2-user using the keypair
+2. Setup the necessary users and their passwords with
+    # useradd USERNAME
+    # passwd USERNAME
+3. Edit /etc/ssh/sshd_config file
+     PasswordAuthentication yes (or)
+     sed -re 's/^(PasswordAuthentication)([[:space:]]+)no/\1\2yes/' -i.`date -I` /etc/ssh/sshd_config
+4. Restart the ssh daemon
+     service sshd restart
