@@ -1,0 +1,74 @@
+Create a VPC
+
+CIDR
+VPC - Navanirman VPC
+
+2. Create Subnets
+
+3. Create IGW and attach it to VPC
+
+4. Create a route table, add IG and Public subnets
+
+5. Create IAM role and give S3 full access
+
+6. Create a security group and open porats 22, 80 and 443 
+
+7. Launch Instacne under VPC with S3_fullaccess role
+
+8. Create a security group and open database and give access EC2 instances security group
+
+9. create MySQL RDS instance
+
+10. try to connect from Browser to EC2 and EC2 to RDS
+
+11. cd /etc/httpd/conf
+	edit httpd.conf
+
+  Search for "AllowOverrid None" change None to All 
+
+It is /var/www/ directory
+
+12. wget https://wordpress.org/latest.tar.gz
+    tar -xzf latest.tar.gz
+    rm -rf html
+    mv wordpress html
+
+
+====================================
+[root@ip-10-0-1-10 ~]# tar -xzf latest.tar.gz
+[root@ip-10-0-1-10 ~]# ls
+anaconda-ks.cfg  awscli-bundle  awscli-bundle.zip  latest.tar.gz  wordpress
+[root@ip-10-0-1-10 ~]# cd /var/www/html
+[root@ip-10-0-1-10 html]# cd ..
+[root@ip-10-0-1-10 www]# rm -rf html
+[root@ip-10-0-1-10 www]# cd /root
+[root@ip-10-0-1-10 ~]# mv wordpress /var/www/html
+[root@ip-10-0-1-10 ~]# cd /var/www/html
+[root@ip-10-0-1-10 html]# ls
+index.php        wp-blog-header.php    wp-includes        wp-settings.php
+license.txt      wp-comments-post.php  wp-links-opml.php  wp-signup.php
+readme.html      wp-config-sample.php  wp-load.php        wp-trackback.php
+wp-activate.php  wp-content            wp-login.php       xmlrpc.php
+wp-admin         wp-cron.php           wp-mail.php
+[root@ip-10-0-1-10 html]# pwd
+/var/www/html
+[root@ip-10-0-1-10 html]# touch elb.html
+[root@ip-10-0-1-10 html]# cat > elb.html
+I am Healthy
+^C
+[root@ip-10-0-1-10 html]#
+
+==================================================
+
+13. Create ELB
+
+14. Create Route53 domain and add ELB to domain
+
+=======================================================================
+15. Create S3 buckets nnweb nncdn10
+
+
+16. copy wordpress application date on to s3
+
+
+aws s3 cp --recursive html s3://nnweb
