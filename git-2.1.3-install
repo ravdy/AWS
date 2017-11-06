@@ -1,0 +1,18 @@
+1. install wget if not yet installed
+yum install wget -y
+2. download git software as tarball from git-scm.com site (git-scm.com/download/linx)
+wget https://www.kernel.org/pub/software/scm/git/git-2.1.3.tar.gz
+3. untar and unzip of package 
+tar zxf git-2.1.3.tar.gz
+4. Checksum of file 
+sha256sum git-2.1.3.tar.gz
+
+5. Install Dependency pacakges 
+yum groupinstall "Development Tools"
+yum install autoconf curl-devel expat-devel gettext-devel openssl-devel perl-CPAN zlib-devel gc make perl-ExtUtils-MakeMaker cpio
+
+6. switch to git software directory and execute below commands. 
+cd git-2.1.3
+./configure
+make
+make perfix=/usr install
