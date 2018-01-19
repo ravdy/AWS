@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS CloudFormation Sample Template EC2 Instance
+Resources:
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-97785bed 
+      InstanceType: t2.micro
+      KeyName: jenkins
+Outputs:
+  WebsiteURL:
+    Value: PublicDnsName
+    Description: EC2 Instance
+
