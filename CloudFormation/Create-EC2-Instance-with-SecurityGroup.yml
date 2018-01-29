@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS CloudFormation Sample Template EC2 Instance
+
+Parameters: 
+  InstanceType: 
+    Description: Select Instance Type
+    Type: String
+    Default: t2.micro
+    AllowedValues: 
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+      - m4.large
+
+      
+Resources:
+  WebSecGrp:
+    Type: AWS::EC2::SecurityGroup
+    Properties: 
+      GroupDescription: Enable port 22 in Security group
+      SecurityGroupIngress: 
+      - IpProtocol: tcp
+        FromPort: 22
+        ToPort: 22
+        CidrIp: 0.0.0.0/0
+        
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-41e0b93b 
+      InstanceType: !Ref InstanceType
+      KeyName: praveenkey
+      SecurityGroupIds:
+         - !Ref WebSecGrp      
+
+Outputs:
+  EC2InstancePublicIPAddress:
+    Description: 'The public IP address of the EC2 Instance.'
+    Value: !GetAtt EC2Instance.PublicDnsName
