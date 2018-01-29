@@ -13,6 +13,7 @@ Parameters:
       - t2.medium
       - t2.large
       - m4.large
+      -m4.2xlarge
     
   
 Resources:
