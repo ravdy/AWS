@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS CloudFormation Sample Template EC2 Instance
+Resources:
+  EC2Instance:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-41e0b93b 
+      InstanceType: t2.micro
+      KeyName: webkey
+      SecurityGroupIds: 
+         - sg-35f03d42
